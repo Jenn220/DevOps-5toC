@@ -1,4 +1,4 @@
-name: CI - Ejecutar pruebas Jest
+name: CI/CD Pipeline - Ricardo Astudillo
 
 on:
   push:
