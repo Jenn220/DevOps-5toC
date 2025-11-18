@@ -59,7 +59,7 @@ def test_potencia():
 def test_saludar():
     """Test para la función saludar"""
     assert saludar("Juan") == "¡Hola Juan! Bienvenido al proyecto CI/CD"
-    assert saludar("María") == "¡Hola Pedro! Bienvenido al proyecto CI/CD"
+    assert saludar("María") == "¡Hola María! Bienvenido al proyecto CI/CD"
     assert saludar("Ana") == "¡Hola Ana! Bienvenido al proyecto CI/CD"
     print("✅ Test saludar: PASADO")
 
