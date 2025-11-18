@@ -190,4 +190,3 @@ git push -u origin main
 - **Mayor confianza en el código:** Con pruebas automáticas ejecutándose constantemente, el equipo tiene mayor certeza de que el código funciona correctamente antes de llegar a producción.
 
 - **Documentación viva del proceso:** El archivo de workflow sirve como documentación ejecutable de cómo se construye y despliega la aplicación.
-Prueba después de limpiar workflows
