@@ -2,9 +2,9 @@ name: CI/CD Pipeline - Build Package
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "santiago-alomoto" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "santiago-alomoto" ]
 
 jobs:
   build-and-test:
