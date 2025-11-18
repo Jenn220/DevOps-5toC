@@ -1,0 +1,122 @@
+name: CI/CD Pipeline - Mayte-Anchapanta
+
+on:
+  push:
+    branches: [ rama-Mayte-Anchapanta ]
+    paths:
+      - 'proyecto-Mayte-Anchapanta/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'proyecto-Mayte-Anchapanta/**'
+
+jobs:
+  test:
+    name: 🧪 Ejecutar Pruebas Unitarias
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v3
+    
+    - name: 🐍 Configurar Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: 📦 Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov
+        echo "✅ Dependencias instaladas correctamente"
+    
+    - name: 🧪 Ejecutar pruebas unitarias
+      working-directory: ./proyecto-Mayte-Anchapanta
+      run: |
+        echo "Iniciando pruebas..."
+        python tests/test_app.py
+        echo ""
+        echo "Ejecutando pytest con cobertura..."
+        pytest tests/ -v --cov=src --cov-report=term-missing
+    
+    - name: ✅ Verificar calidad del código
+      run: |
+        echo "=========================================="
+        echo "✅ TODAS LAS PRUEBAS PASARON EXITOSAMENTE"
+        echo "=========================================="
+
+  build:
+    name: 📦 Construir Package
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v3
+    
+    - name: 🐍 Configurar Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: 🔧 Instalar herramientas de construcción
+      run: |
+        python -m pip install --upgrade pip
+        pip install build setuptools wheel
+        echo "✅ Herramientas de build instaladas"
+    
+    - name: 📝 Crear archivo setup.py
+      working-directory: ./proyecto-Mayte-Anchapanta
+      run: |
+        cat > setup.py << 'EOF'
+        from setuptools import setup, find_packages
+        
+        setup(
+            name="calculadora-cicd-Mayte-Anchapanta",
+            version="1.0.0",
+            author="Mayte-Anchapanta",
+            author_email="mav.anchapanta@yavirac.edu.ec",
+            description="Calculadora simple con CI/CD - Proyecto DevOps",
+            long_description=open("README.md").read(),
+            long_description_content_type="text/markdown",
+            packages=find_packages(),
+            python_requires='>=3.7',
+            classifiers=[
+                "Programming Language :: Python :: 3",
+                "License :: OSI Approved :: MIT License",
+                "Operating System :: OS Independent",
+            ],
+        )
+        EOF
+        echo "✅ setup.py creado correctamente"
+    
+    - name: 🏗️ Construir el package
+      working-directory: ./proyecto-Mayte-Anchapanta
+      run: |
+        echo "Iniciando construcción del package..."
+        python -m build
+        echo ""
+        echo "=========================================="
+        echo "📦 PACKAGE CONSTRUIDO EXITOSAMENTE"
+        echo "=========================================="
+        echo ""
+        echo "📂 Archivos generados:"
+        ls -lh dist/
+    
+    - name: 📤 Subir artefactos (package)
+      uses: actions/upload-artifact@v3
+      with:
+        name: package-distribution-Mayte-Anchapanta
+        path: proyecto-Mayte-Anchapanta/dist/
+        retention-days: 30
+    
+    - name: 🎉 Resumen del Build
+      run: |
+        echo ""
+        echo "=========================================="
+        echo "✅ CI/CD PIPELINE COMPLETADO EXITOSAMENTE"
+        echo "=========================================="
+        echo "Proyecto: calculadora-cicd-Mayte-Anchapanta"
+        echo "Autor: Mayte-Anchapanta"
+        echo "Fecha: $(date)"
+        echo "=========================================="
