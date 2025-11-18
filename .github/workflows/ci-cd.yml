@@ -1,0 +1,63 @@
+name: CI/CD Pipeline - Ricardo Astudillo
+
+on:
+  push:
+    branches:
+      - main
+      - ricardo-ci-cd
+  pull_request:
+    branches:
+      - main
+      
+jobs:
+  test:
+    name: Ejecutar Pruebas Unitarias
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v3
+    
+    - name: Configurar Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov
+    
+    - name: Ejecutar pruebas unitarias
+      working-directory: .
+      run: |
+        pytest tests/ -v --cov=src --cov-report=term-missing
+    
+  build:
+    name: Construir Package
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v3
+    
+    - name: Configurar Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Instalar herramientas de construcción
+      run: |
+        python -m pip install --upgrade pip
+        pip install build setuptools wheel
+    
+    - name: Construir el package
+      run: |
+        python -m build
+    
+    - name: Subir artefactos
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: dist/
