@@ -4,23 +4,23 @@
 
 **Colaboradores:**
 
-- colaborador 1:
-- colaborador 2:
-- colaborador 3:
-- colaborador 4:
-- colaborador 5:
-- colaborador 6
-- colaborador 7:
-- colaborador 8:
-- colaborador 9:
-- colaborador 10:
-- colaborador 11:
-- colaborador 12:
-- colaborador 13:
-- colaborador 14:
-- colaborador 15:
-- colaborador 16:
-- colaborador 17:
+- colaborador 1: Mayte Anchapanta=
+- colaborador 2: Ricardo Astudillo=
+- colaborador 3: Mathias Alcivar=
+- colaborador 4: Santiago Alomoto=
+- colaborador 5: Diego Lema=
+- colaborador 6: Jualian Chavez=
+- colaborador 7: Mateo Guerron=
+- colaborador 8: Ronny Villa=
+- colaborador 9: Joel Molina=
+- colaborador 10: Damian Carrillo=
+- colaborador 11: Alexis Coello=
+- colaborador 12: Jean Mora=
+- colaborador 13: Andres Puglla=
+- colaborador 14: Liz Llinin=
+- colaborador 15: Steven Calle=
+- colaborador 16: Fernando Cuaspud=
+- colaborador 17: Mateus Castillo=
 
 ## ¿Qué es CI/CD?
 
