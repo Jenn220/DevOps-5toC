@@ -1,4 +1,4 @@
-name: CI/CD - Proyecto Mathius
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,31 +7,29 @@ on:
   pull_request:
 
 jobs:
-  build-test-package:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔄 Checkout del código
-        uses: actions/checkout@v3
+    - name: 🔄 Checkout repository
+      uses: actions/checkout@v4
 
-      - name: 🐍 Configurar Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+    - name: 🟦 Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
 
-      - name: 📦 Instalar dependencias
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: 📦 Install dependencies
+      run: npm install
 
-      - name: 🧪 Ejecutar pruebas
-        run: pytest -q
+    - name: 🧪 Run tests
+      run: npm test --if-present
 
-      - name: 🛠️ Construir package
-        run: python setup.py sdist bdist_wheel
+    - name: 🏗️ Build package
+      run: npm run build --if-present
 
-      - name: 📤 Subir artefacto (wheel)
-        uses: actions/upload-artifact@v3
-        with:
-          name: paquete_mathius
-          path: dist/*.whl
+    - name: 📤 Upload package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: dist/
