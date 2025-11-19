@@ -1,4 +1,4 @@
-name: Pipeline-Ronny-Villa
+name: CI-CD Ronny-Villa
 
 on:
   push:
@@ -6,32 +6,32 @@ on:
       - Ronny-villa
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
-  ejecutar-pipeline:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar repositorio por Ronny-Villa
-        uses: actions/checkout@v4
+      - name: 📥 Clonar repositorio
+        uses: actions/checkout@v3
 
-      - name: Configurar Node.js versión especial por Ronny-Villa
-        uses: actions/setup-node@v4
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Instalar dependencias personalizadas
+      - name: 📦 Instalar dependencias
         run: npm install
 
-      - name: Ejecutar pruebas creadas por Ronny-Villa
-        run: npm test
+      - name: 🧪 Ejecutar pruebas de Ronny-Villa
+        run: node tests/runTests.js
 
-      - name: Generar paquete automático de Ronny-Villa
+      - name: 📦 Construir package (.tgz)
         run: npm pack
 
-      - name: Subir artefacto empaquetado por Ronny-Villa
-        uses: actions/upload-artifact@v4
+      - name: 📤 Subir artefacto del package generado
+        uses: actions/upload-artifact@v3
         with:
-          name: paquete-ronny-villa
+          name: ronny-villa-package
           path: "*.tgz"
