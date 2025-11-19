@@ -1,18 +1,17 @@
-name: CI/CD Pipeline
+name: Pruebas y publicación del contenedor
 
 on:
   push:
-    branches: [main]
+    branches: [ "andres-puglla" ]
   pull_request:
-    branches: [main]
+    branches: [ "andres-puglla" ]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v3
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
 
       - name: Configurar Node.js
         uses: actions/setup-node@v3
@@ -22,32 +21,31 @@ jobs:
       - name: Instalar dependencias
         run: npm install
 
-      - name: Ejecutar tests
+      - name: Ejecutar pruebas
         run: npm test
 
-      - name: Build del proyecto
-        run: npm run build
-
-      - name: Archivar artefacto
-        uses: actions/upload-artifact@v3
-        with:
-          name: package-tgz
-          path: "*.tgz"
-          retention-days: 5
-
-  deploy:
-    needs: build-and-test
+  build_and_push:
+    needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      - name: Descargar artefacto
-        uses: actions/download-artifact@v3
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Iniciar sesión en GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          name: package-tgz
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Listar contenido
-        run: ls -la
-
-      - name: Deploy a producción
-        run: echo "Desplegando a producción..."
+      - name: Construir y publicar imagen Docker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/andres-puglla:latest
