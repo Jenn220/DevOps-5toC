@@ -1,0 +1,12 @@
+{
+  "name": "ci-cd-jean",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "build": "mkdir dist && powershell -Command \"Compress-Archive -Path * -DestinationPath dist/paquete-jean.zip\""
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
