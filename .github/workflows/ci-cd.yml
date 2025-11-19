@@ -3,12 +3,8 @@ name: CI/CD Pipeline - Mayte Anchapanta
 on:
   push:
     branches: [rama-Mayte-Anchapanta]
-    paths:
-      - "**"
   pull_request:
     branches: [master]
-    paths:
-      - "**"
 
 jobs:
   test:
