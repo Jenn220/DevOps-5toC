@@ -533,4 +533,4 @@ Cuando el job TEST falla, el job BUILD no se ejecuta.
 **Nombre:** Mayte Anchapanta  
 **Materia:** DevOps - 5to C  
 **Fecha:** Noviembre 2025  
-**Repositorio:** https://github.com/Jenn220/DevOps-5toC/tree/rama-Mayte-Anchapanta/proyecto-Mayte-Anchapanta
+**Repositorio:** https://github.com/Jenn220/DevOps-5toC/tree/rama-Mayte-Anchapanta 
