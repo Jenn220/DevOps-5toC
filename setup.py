@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="pipeline_mathius",
+    name="mi_proyecto_ci_cd",
     version="1.0.0",
+    description="Ejemplo CI/CD para entrega académica",
     packages=find_packages(),
-    description="Proyecto académico CI/CD con Python y GitHub Actions",
-    author="Mathius Castillo",
 )
