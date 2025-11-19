@@ -4,7 +4,7 @@ Pipeline CI/CD - Proyecto de Integración Continua
 Información del Proyecto
 Autor: Damian Carrillo
 Materia: DevOps - 5to C
-Repositorio: 
+Repositorio: https://github.com/Jenn220/DevOps-5toC.git 
 Rama: rama-Damian-Carrillo
 Fecha: Noviembre 2025
 
