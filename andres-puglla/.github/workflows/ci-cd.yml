@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar tests
+        run: npm test
+
+      - name: Build del proyecto
+        run: npm run build
+
+      - name: Archivar artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: package-tgz
+          path: "*.tgz"
+          retention-days: 5
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Descargar artefacto
+        uses: actions/download-artifact@v3
+        with:
+          name: package-tgz
+
+      - name: Listar contenido
+        run: ls -la
+
+      - name: Deploy a producción
+        run: echo "Desplegando a producción..."
