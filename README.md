@@ -6,7 +6,7 @@
 
 - colaborador 1: Mayte Anchapanta=
 - colaborador 2: Ricardo Astudillo=
-- colaborador 3: Mathias Alcivar=
+- colaborador 3: Mathias Alcivar= merge listo
 - colaborador 4: Santiago Alomoto=
 - colaborador 5: Diego Lema=
 - colaborador 6: Jualian Chavez=
