@@ -2,7 +2,6 @@ name: Pipeline CI/CD
 
 on:
   push:
-    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 
@@ -20,6 +19,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
     
+    - name: Verificar estructura
+      run: |
+        echo "Verificando archivos..."
+        ls -la matias-alcivar/
+        ls -la matias-alcivar/src/main/java/
+        ls -la matias-alcivar/tests/
+    
     - name: Crear carpetas de salida
       run: |
         mkdir -p out/production
@@ -27,11 +33,11 @@ jobs:
     
     - name: Compilar aplicacion
       run: |
-        javac -d out/production matias-alcivar/src/main/java/*.java
+        javac -d out/production matias-alcivar/src/main/java/Calculator.java
     
     - name: Compilar tests
       run: |
-        javac -cp out/production -d out/test matias-alcivar/tests/*.java
+        javac -cp out/production -d out/test matias-alcivar/tests/CalculatorTest.java
     
     - name: Ejecutar tests
       run: |
