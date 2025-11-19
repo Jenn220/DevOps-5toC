@@ -1,17 +1,13 @@
 {
-  "name": "devops-5toc",
+  "name": "santiago-alomoto",
   "version": "1.0.0",
-  "description": "Repositorio DevOps - 5to C - Colaborador: Santiago Alomoto",
-  "main": "src/index.js",
+  "description": "Pipeline CI/CD creado por Santiago-Alomoto con nombres personalizados",
+  "main": "src/appCore.js",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "jest"
+    "test": "node tests/runTests.js",
+    "build": "echo 'Construcción generada por Santiago-Alomoto'",
+    "prepack": "npm run build"
   },
-  "keywords": [],
-  "author": "Santiago Alomoto",
-  "license": "ISC",
-  "type": "commonjs",
-  "devDependencies": {
-    "jest": "^29.7.0"
-  }
+  "author": "Santiago-Alomoto",
+  "license": "MIT"
 }
