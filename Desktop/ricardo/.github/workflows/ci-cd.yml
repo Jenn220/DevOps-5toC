@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - ricardo-ci-cd
+      - ricardo-astudillo
   pull_request:
     branches:
       - main
