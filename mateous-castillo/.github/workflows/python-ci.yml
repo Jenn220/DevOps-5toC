@@ -1,0 +1,54 @@
+name: CI/CD Pipeline - Flask Completo 🚀
+
+on:
+  push:
+    branches:
+      - mateous-castillo
+  pull_request:
+    branches:
+      - mateous-castillo
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+    - name: 🧾 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 🐍 Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: 🧪 Run tests (pytest)
+      run: |
+        echo "Running pytest..."
+        pytest -v
+
+    - name: 🧹 Run lint (flake8)
+      run: |
+        echo "Running flake8..."
+        flake8 . || echo "Lint warnings found but continuing ✅"
+
+    - name: 🔐 Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 🏗️ Build and push Docker image
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: ghcr.io/mathiuscp/completo:latest
