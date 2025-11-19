@@ -46,6 +46,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./molina.Dockerfile
+          file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/andres-puglla:latest
+          tags: ghcr.io/jenn220/andres-puglla:latest
