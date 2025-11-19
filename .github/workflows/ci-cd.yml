@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - Mayte Anchapanta
+name: CI/CD Pipeline-Mayte Anchapanta
 
 on:
   push:
