@@ -1,135 +1,149 @@
-Aquí tienes tu **README completo**, adaptado exactamente al formato solicitado, pero usando **tu proyecto en Python + Flask** con tu estructura real de archivos:
+🚀 CI/CD – Ciclo Completo con Construcción de Package
 
----
+Autor: Ricardo Astudillo
+Proyecto: DevOps – 5to C
 
-# **Pipeline CI/CD — Proyecto de Integración Continua**
+📌 ¿Qué es CI/CD?
 
-**Repositorio:** *(coloca tu URL aquí)*
-**Creador / Autor del README:** Joel Molina
+CI/CD significa Integración Continua y Despliegue/Entrega Continua.
+Es un proceso automatizado que ayuda a que el código:
 
-**Colaboradores (este repositorio incluye):** Equipo de trabajo
+Se revise automáticamente
 
----
+Ejecute pruebas
 
-## **Objetivo**
+Construya un paquete (package)
 
-Explicar detalladamente el ciclo CI/CD desde el push del desarrollador hasta la construcción del artefacto final (PACKAGE), usando un proyecto práctico en Python con Flask que incluye pruebas unitarias y publicación de artefactos mediante GitHub Actions.
+Se valide antes de pasar a producción
 
-Este repositorio permite demostrar cómo:
+Esto permite trabajar más rápido y sin errores manuales.
 
-* Se ejecutan pruebas unitarias automáticamente.
-* Se valida el código antes de generarse el artefacto.
-* Se construye una imagen Docker como package.
-* Se publica dicho artefacto en GitHub Actions.
+🔄 CICLO COMPLETO DE CI/CD (Explicado de forma sencilla)
 
----
+El proyecto usa GitHub Actions para automatizar sus pasos.
 
-## **Resumen del ciclo CI/CD (conceptual)**
+▶ 1. Integración Continua (CI)
 
-1. El desarrollador hace cambios localmente.
-2. Hace **commit** y **push** a la rama remota.
-3. GitHub Actions detecta el push y activa el pipeline.
-4. El pipeline:
+Cada vez que hacemos push o pull request, GitHub realiza:
 
-   * Instala dependencias.
-   * Ejecuta pruebas unitarias.
-   * Construye un artefacto (imagen Docker o archivo).
-   * Publica el artefacto como descarga.
-5. Si todo pasa correctamente, el artefacto queda disponible para despliegue.
+✔ Descarga del repositorio
+✔ Instalación de dependencias
+✔ Ejecución de pruebas unitarias
+✔ Validación del código
 
----
+Si todo es correcto → continúa.
 
-## **Ejemplo práctico (Python + Flask) — ¿Qué contiene este repositorio?**
+Si algo falla → el proceso se detiene.
 
-Este repositorio contiene una API simple creada con Flask que expone un endpoint de suma, junto con pruebas unitarias para validar su funcionamiento, un archivo Dockerfile y un workflow funcional para CI/CD.
+▶ 2. Entrega Continua (CD)
 
-### **📌 Archivos principales**
+Si CI pasa correctamente, GitHub:
 
-#### **`app.py`**
+✔ Construye el package
+✔ En este caso, genera una imagen Docker
+✔ Guarda el package como artefacto descargable
 
-Script principal con una API Flask para realizar sumas:
+🧪 PRUEBAS UNITARIAS
 
-```python
-from flask import Flask, request, jsonify
+Las pruebas están en:
 
-app = Flask(__name__)
+test_app.py
 
-@app.route("/")
-def home():
-    return "Bienvenido a mi API de suma 🧮"
 
-@app.route("/suma")
-def sumar():
-    try:
-        a = float(request.args.get("a", 0))
-        b = float(request.args.get("b", 0))
-        resultado = a + b
-        return jsonify({"resultado": resultado})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+Ejemplo del test:
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-```
+from app import sumar
 
----
+def test_sumar():
+    assert sumar(2, 3) == 5
 
-#### **`test_app.py`**
 
-Prueba unitaria que valida el endpoint `/suma`:
+Para ejecutarlo manualmente:
 
-```python
-from app import app
-
-def test_suma_endpoint():
-    client = app.test_client()
-    response = client.get("/suma?a=3&b=5")
-    data = response.get_json()
-    assert response.status_code == 200
-    assert data["resultado"] == 8
-```
-
----
-
-#### **`requirements.txt`**
-
-Incluye dependencias mínimas:
-
-```
-flask
 pytest
-```
 
----
 
-#### **`molina.Dockerfile`** *(nombre según tu proyecto)*
+Las pruebas se ejecutan automáticamente en el pipeline.
 
-Dockerfile que genera el package/imagen del servicio.
+🛠 ARCHIVO DEL PIPELINE (GitHub Actions)
 
----
+Ubicación:
 
-#### **`.github/workflows/joel.yml`**
+.github/workflows/ci.yml
 
-Workflow del pipeline CI/CD que:
 
-* Instala dependencias.
-* Ejecuta `pytest`.
-* Construye una imagen Docker.
-* Publica la imagen como artefacto en GitHub Actions.
+Ejemplo del workflow usado:
 
----
+name: CI/CD Pipeline
 
-## **Archivos clave (ejemplo de cómo están estructurados):**
+on:
+  push:
+    branches: 
+      - main
+      - ricardo-astudillo
+  pull_request:
 
-```
-📁 proyecto
+jobs:
+  build-test-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar pruebas
+        run: pytest
+
+      - name: Construir imagen Docker
+        run: docker build -t app-image -f astudillo.Dockerfile .
+
+      - name: Guardar package como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-package
+          path: .
+
+
+Este pipeline:
+
+✔ Instala Python
+✔ Instala dependencias
+✔ Ejecuta pruebas
+✔ Construye la imagen Docker usando astudillo.Dockerfile
+✔ Guarda el artefacto final
+
+📦 CONSTRUCCIÓN DEL PACKAGE
+
+El package se genera con Docker usando tu archivo:
+
+docker build -f astudillo.Dockerfile -t app-image .
+
+
+GitHub Actions empaqueta este build y lo sube como artefacto.
+
+📂 ESTRUCTURA DEL PROYECTO
+DevOps-5toC/
+ ├── .github/workflows/ci.yml
  ├── app.py
  ├── test_app.py
  ├── requirements.txt
- ├── molina.Dockerfile
- └── .github/workflows/joel.yml
-```
+ ├── astudillo.Dockerfile
+ ├── README.md
+ ├── __pycache__/
 
----
+✅ ENTREGA FINAL
 
-Si deseas, puedo mejorar el README con imágenes, diagramas de flujo, badges de GitHub Actions o agregar cómo ejecutar el proyecto localmente. ¿Quieres una versión más “pro” o más visual?
+✔ README completo y explicado
+✔ Pipeline funcional
+✔ Pruebas unitarias
+✔ Package Docker generado
+✔ Repositorio público
+✔ Rama: ricardo-astudillo
