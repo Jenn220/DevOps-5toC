@@ -52,6 +52,6 @@ jobs:
           context: .
           file: ./molina.Dockerfile 
           push: true
-          tags: ghcr.io/devops-5toc/joel:latest
+          tags: ghcr.io/jenn220/joel:latest
 
 
