@@ -55,7 +55,7 @@ jobs:
         java -jar out/production/Calculator.jar
     
     - name: Guardar artefacto
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: aplicacion-java
         path: out/production/Calculator.jar
