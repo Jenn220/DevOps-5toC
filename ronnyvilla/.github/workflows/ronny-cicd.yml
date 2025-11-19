@@ -2,7 +2,7 @@ name: Pruebas y publicación del contenedor
 
 on:
   push:
-    branches: ["master"]
+    branches: "ronnyvilla"
 
 jobs:
 
