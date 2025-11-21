@@ -1,26 +1,4 @@
-# Pipeline CI/CD - Proyecto de Integración Continua
 
-**Creador:** Jenifer Alvarez
-
-**Colaboradores:**
-
-- colaborador 1: Mayte Anchapanta=
-- colaborador 2: Ricardo Astudillo=
-- colaborador 3: Mathias Alcivar= merge listo
-- colaborador 4: Santiago Alomoto=
-- colaborador 5: Diego Lema=
-- colaborador 6: Jualian Chavez=
-- colaborador 7: Mateo Guerron=
-- colaborador 8: Ronny Villa=
-- colaborador 9: Joel Molina=
-- colaborador 10: Damian Carrillo=
-- colaborador 11: Alexis Coello=
-- colaborador 12: Jean Mora=
-- colaborador 13: Andres Puglla=
-- colaborador 14: Liz Llinin=
-- colaborador 15: Steven Calle=
-- colaborador 16: Fernando Cuaspud=
-- colaborador 17: Mateus Castillo=
 
 ## ¿Qué es CI/CD?
 
