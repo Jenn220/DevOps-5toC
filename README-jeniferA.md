@@ -2,26 +2,6 @@
 
 **Creador:** Jenifer Alvarez
 
-**Colaboradores:**
-
-- colaborador 1: Mayte Anchapanta=
-- colaborador 2: Ricardo Astudillo=
-- colaborador 3: Mathias Alcivar= merge listo
-- colaborador 4: Santiago Alomoto=
-- colaborador 5: Diego Lema=
-- colaborador 6: Jualian Chavez=
-- colaborador 7: Mateo Guerron=
-- colaborador 8: Ronny Villa=
-- colaborador 9: Joel Molina=
-- colaborador 10: Damian Carrillo=
-- colaborador 11: Alexis Coello=
-- colaborador 12: Jean Mora=
-- colaborador 13: Andres Puglla=
-- colaborador 14: Liz Llinin=
-- colaborador 15: Steven Calle=
-- colaborador 16: Fernando Cuaspud=
-- colaborador 17: Mateus Castillo=
-
 ## ¿Qué es CI/CD?
 
 CI/CD son las siglas de Continuous Integration (Integración Continua) y Continuous Deployment (Despliegue Continuo). Es una metodología de desarrollo de software que permite automatizar las etapas de integración, pruebas y despliegue de código.
@@ -50,7 +30,7 @@ El Despliegue Continuo automatiza la entrega del código verificado hacia ambien
 8. Si todo es exitoso, despliega a producción
 9. Si algo falla, notifica al equipo
 
-## Ejemplo Práctico: Aplicación Node.js
+## Ejemplo Práctico: Aplicación Python
 
 ### Estructura del Proyecto
 
@@ -59,59 +39,63 @@ proyecto/
 ├── .github/
 │   └── workflows/
 │       └── ci-cd.yml
-├── /
-│   └── index.js
+├── src/
+│   └── calculadora.py
 ├── tests/
-│   └── app.test.js
-├── package.json
+│   └── test_calculadora.py
+├── requirements.txt
 └── README.md
 ```
 
 ### Paso 1: Crear el repositorio
 
 ```bash
-mkdir ci-cd-project
-cd ci-cd-project
+mkdir ci-cd-python-project
+cd ci-cd-python-project
 git init
 git branch -M main
 ```
 
 ### Paso 2: Crear la aplicación básica
 
-**package.json**
+**requirements.txt**
 
-```json
-{
-  "name": "ci-cd-demo",
-  "version": "1.0.0",
-  "scripts": {
-    "test": "jest",
-    "start": "node src/index.js"
-  },
-  "devDependencies": {
-    "jest": "^29.0.0"
-  }
-}
+```txt
+pytest==7.4.0
 ```
 
-**index.js**
+**src/calculadora.py**
 
-```javascript
-function sumar(a, b) {
-  return a + b;
-}
+```python
+def sumar(a, b):
+    """Función que suma dos números"""
+    return a + b
 
-module.exports = { sumar };
+def restar(a, b):
+    """Función que resta dos números"""
+    return a - b
+
+def multiplicar(a, b):
+    """Función que multiplica dos números"""
+    return a * b
 ```
 
-**tests/app.test.js**
+**tests/test_calculadora.py**
 
-```javascript
-const { sumar } = require("../src/index");
+```python
+from src.calculadora import sumar, restar, multiplicar
 
-test("suma 1 + 2 es igual a 3", () => {
-  expect(sumar(1, 2)).toBe(3);
-});
+def test_sumar():
+    assert sumar(2, 3) == 5
+    assert sumar(-1, 1) == 0
+
+def test_restar():
+    assert restar(5, 3) == 2
+    assert restar(0, 5) == -5
+
+def test_multiplicar():
+    assert multiplicar(3, 4) == 12
+    assert multiplicar(0, 10) == 0
 ```
 
 ### Paso 3: Configurar el workflow CI/CD
@@ -119,7 +103,7 @@ test("suma 1 + 2 es igual a 3", () => {
 **.github/workflows/ci-cd.yml**
 
 ```yaml
-name: CI/CD Pipeline
+name: CI/CD Pipeline Python
 
 on:
   push:
@@ -135,19 +119,30 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v3
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
+      - name: Configurar Python
+        uses: actions/setup-python@v4
         with:
-          node-version: "18"
+          python-version: "3.10"
 
       - name: Instalar dependencias
-        run: npm install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Ejecutar tests
-        run: npm test
+        run: |
+          pytest tests/ -v
 
-      - name: Build del proyecto
-        run: npm run build --if-present
+      - name: Generar reporte de cobertura
+        run: |
+          pip install pytest-cov
+          pytest --cov=src tests/
+
+      - name: Crear artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: calculadora-package
+          path: src/
 
   deploy:
     needs: build-and-test
@@ -156,7 +151,9 @@ jobs:
 
     steps:
       - name: Deploy a producción
-        run: echo "Desplegando a producción..."
+        run: |
+          echo "Desplegando aplicación Python..."
+          echo "Package generado correctamente"
 ```
 
 ### Paso 4: Subir el código
