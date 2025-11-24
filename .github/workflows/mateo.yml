@@ -1,0 +1,38 @@
+name: CI-CD-Mateo-Guerron
+
+on:
+  push:
+    branches: ["MATEO-GUERRON"]
+  pull_request:
+    branches: ["MATEO-GUERRON"]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+
+    - name: Instalar dependencias
+      run: |
+        pip install -r DEVOPS-5TOC-MATEO-GUERRON/requirements.txt
+
+    - name: Ejecutar pruebas
+      run: |
+        pytest DEVOPS-5TOC-MATEO-GUERRON
+
+    - name: Construir imagen Docker
+      run: |
+        docker build -t mateo-app -f DEVOPS-5TOC-MATEO-GUERRON/mateo.Dockerfile DEVOPS-5TOC-MATEO-GUERRON
+
+    - name: Guardar package
+      uses: actions/upload-artifact@v3
+      with:
+        name: mateo-package
+        path: DEVOPS-5TOC-MATEO-GUERRON
